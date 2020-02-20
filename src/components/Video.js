@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(0, 6, 3),
+    margin: theme.spacing(0, 6, 3),
     display: 'flex',
     '& > *': {
       flex: 1,
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(2),
+      margin: theme.spacing(3, 6),
       flexDirection: 'column',
     },
   },

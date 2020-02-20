@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyA-4fLiIp0tOTpBOyiCelMi5jcuXfh7Si0';
+const API_KEY = 'AIzaSyCS2aUrqLXQ-6aLlfH_IU00Js6yjPGCB8U';
 
 const endpoints = {
   videos: 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=6',
