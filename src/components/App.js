@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Navbar from './Navbar';
 import Video from './Video';
+import VideoSelector from './VideoSelector';
 import { fetchResource } from '../scripts/apiCalls';
 
 const App = () => {
   const [fetchingVideos, setFetchingVideos] = useState(false);
   const [videos, setVideos] = useState();
-  const [selectedVideoId, setSelectedVideoId] = useState('HQmmM_qwG4k');
+  const [selectedVideoId, setSelectedVideoId] = useState();
   const [fetchingSelectedVideo, setFetchingSelectedVideo] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState();
 
@@ -14,12 +16,19 @@ const App = () => {
     'videos',
     {
       q: query,
-      fields: ['id/videoId', 'snippet/thumbnails']
+      fields: ['id/videoId', 'snippet/title', 'snippet/thumbnails']
     },
     setFetchingVideos,
     setVideos,
-    (response) => response,
-    (videos) => setSelectedVideoId(videos.items[0].id.videoId)
+    (response) => response.items.reduce((videos, { id: { videoId }, snippet: { thumbnails } }) => {
+      videos.push({
+        id: videoId,
+        thumbnails,
+      });
+
+      return videos;
+    }, []),
+    // (videos) => setSelectedVideoId(videos[0].id)
   );
 
   useEffect(() => {
@@ -37,19 +46,20 @@ const App = () => {
     );
   }, [selectedVideoId]);
 
-  useEffect(() => {
-    if (videos) console.log(videos);
-    if (selectedVideo) console.log(selectedVideo);
-  }, [videos, selectedVideo]);
-
   return (
     <>
       <Navbar handleSearchValueChange={fetchVideos} />
 
-      {fetchingVideos && 'Loading videos...'}
-      {fetchingSelectedVideo && 'Loading selected video...'}
+      {(fetchingVideos || fetchingSelectedVideo) && (
+        <LinearProgress />
+      )}
+
+      {videos && (
+        <VideoSelector videos={videos} selectedVideoId={selectedVideoId} setSelectedVideoId={setSelectedVideoId} />
+      )}
+
       {selectedVideo && (
-        <Video id={selectedVideoId} {...selectedVideo}/>
+        <Video id={selectedVideoId} {...selectedVideo} />
       )}
     </>
   );

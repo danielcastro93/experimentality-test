@@ -51,7 +51,7 @@ const SearchBar = ({ onChange }) => {
   const handleChange = (value) => {
     setValue(value);
     clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => onChange(value), 3000);
+    timerRef.current = setTimeout(() => onChange(value), 500);
   };
 
   return (
