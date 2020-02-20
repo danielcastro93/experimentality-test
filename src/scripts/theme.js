@@ -10,6 +10,11 @@ export default createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "'Comfortaa', cursive"
-  }
+    fontFamily: "'Comfortaa', cursive",
+  },
+  breakpoints: {
+    values: {
+      sm: 768,
+    },
+  },
 });

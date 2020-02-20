@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyCS2aUrqLXQ-6aLlfH_IU00Js6yjPGCB8U';
+const API_KEY = 'AIzaSyA-4fLiIp0tOTpBOyiCelMi5jcuXfh7Si0';
 
 const endpoints = {
   videos: 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=6',
@@ -22,11 +22,13 @@ const appendParams = (endpoint, params) => {
 
 const getEndpoint = (resource, params) => appendParams(endpoints[resource], params);
 
-export const fetchResource = async (resource, setLoading, setValue, params, callback) => {
+export const fetchResource = async (resource, params, setLoading, setValue, processResponse, callback) => {
   setLoading(true);
 
   const response = await fetch(getEndpoint(resource, params));
-  const parsedResponse = await response.json();
+  let parsedResponse = await response.json();
+
+  if (processResponse) parsedResponse = processResponse(parsedResponse);
 
   setLoading(false);
   setValue(parsedResponse);

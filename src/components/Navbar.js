@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flex: 1,
+    fontWeight: 'bold',
   },
 }));
 
@@ -27,7 +28,7 @@ const App = ({ handleSearchValueChange }) => {
       <Toolbar>
         <img className={classes.logo} src="/logo.png" alt="Experimentality Logo" />
 
-        <Typography className={classes.title} variant="h6">
+        <Typography className={classes.title} variant="h6" component="h1">
           Experimentality
         </Typography>
 
