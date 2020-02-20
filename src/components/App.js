@@ -61,7 +61,7 @@ const App = () => {
       <Navbar handleSearchValueChange={fetchVideos} />
 
       {(fetchingVideos || fetchingSelectedVideo) && (
-        <LinearProgress />
+        <LinearProgress aria-label="Progress bar" />
       )}
       
       {videos && videos.length > 0 && (

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,18 @@ const Thumbnail = ({ title, thumbnails: { default: { url } }, selected, onClick 
       <PlayArrowIcon className={classNames(classes.icon, classes.centered)} color="primary" fontSize="large" />
     </Paper>
   );
+};
+
+Thumbnail.propTypes = {
+  title: PropTypes.string,
+  thumbnails: PropTypes.object.isRequired,
+  selected: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+};
+
+Thumbnail.defaultProps = {
+  title: undefined,
+  selected: false,
 };
 
 export default Thumbnail;

@@ -7,6 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import InputBase from "@material-ui/core/InputBase";
 import Close from '@material-ui/icons/Close';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   baseBar: {
@@ -60,7 +61,7 @@ const SearchBar = ({ onChange }) => {
         <SearchIcon />
       </IconButton>
 
-      <Toolbar className={open ? classNames(classes.baseBar, classes.openBar) : classes.baseBar} disableGutters>
+      <Toolbar className={open ? classNames(classes.baseBar, classes.openBar) : classes.baseBar} disableGutters aria-label="Search bar">
         <IconButton className={classes.button} color="primary" aria-label="Close search bar" onClick={() => setOpen(false)}>
           <ArrowBack />
         </IconButton>
@@ -81,6 +82,10 @@ const SearchBar = ({ onChange }) => {
       </Toolbar>
     </>
   );
+};
+
+SearchBar.propTypes = {
+  onChange: PropTypes.func.isRequired,
 };
 
 export default SearchBar;

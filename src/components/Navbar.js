@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const App = ({ handleSearchValueChange }) => {
+const Navbar = ({ handleSearchValueChange }) => {
   const classes = useStyles();
 
   return (
@@ -38,4 +39,8 @@ const App = ({ handleSearchValueChange }) => {
   );
 };
 
-export default App;
+Navbar.propTypes = {
+  handleSearchValueChange: PropTypes.func.isRequired,
+};
+
+export default Navbar;

@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Thumbnail from './Thumbnail';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,12 +51,12 @@ const VideoSelector = ({ videos, selectedVideoId, setSelectedVideoId }) => {
   return (
     <div className={classes.root}>
       {isMobile && (
-        <IconButton color="primary" onClick={scroll()} disableRipple disableFocusRipple disableTouchRipple>
+        <IconButton color="primary" aria-label="Scroll backwards" onClick={scroll()} disableRipple disableFocusRipple disableTouchRipple>
           <ChevronLeftIcon />
         </IconButton>
       )}
 
-      <div id="container" className={classes.container} ref={containerRef}>
+      <div className={classes.container} ref={containerRef}>
         {videos.map(({ id, ...videoProps }) => (
           <Thumbnail
             {...videoProps}
@@ -67,12 +68,22 @@ const VideoSelector = ({ videos, selectedVideoId, setSelectedVideoId }) => {
       </div>
 
       {isMobile && (
-        <IconButton color="primary" onClick={scroll('forward')} disableRipple disableFocusRipple disableTouchRipple>
+        <IconButton color="primary" aria-label="Scroll forward" onClick={scroll('forward')} disableRipple disableFocusRipple disableTouchRipple>
           <ChevronRightIcon />
         </IconButton>
       )}
     </div>
   );
+};
+
+VideoSelector.propTypes = {
+  videos: PropTypes.array.isRequired,
+  selectedVideoId: PropTypes.string,
+  setSelectedVideoId: PropTypes.func.isRequired,
+};
+
+VideoSelector.defaultProps = {
+  selectedVideoId: undefined,
 };
 
 export default VideoSelector;
