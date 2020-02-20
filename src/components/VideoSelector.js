@@ -47,7 +47,6 @@ const VideoSelector = ({ videos, selectedVideoId, setSelectedVideoId }) => {
     });
   };
 
-  console.log(videos);
   return (
     <div className={classes.root}>
       {isMobile && (

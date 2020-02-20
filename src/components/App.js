@@ -12,24 +12,34 @@ const App = () => {
   const [fetchingSelectedVideo, setFetchingSelectedVideo] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState();
 
-  const fetchVideos = (query) => fetchResource(
-    'videos',
-    {
-      q: query,
-      fields: ['id/videoId', 'snippet/title', 'snippet/thumbnails']
-    },
-    setFetchingVideos,
-    setVideos,
-    (response) => response.items.reduce((videos, { id: { videoId }, snippet: { thumbnails } }) => {
-      videos.push({
-        id: videoId,
-        thumbnails,
-      });
+  const fetchVideos = (query) => {
+    if (!query) {
+      setVideos(null);
+      setSelectedVideoId(null);
+      setSelectedVideo(null);
 
-      return videos;
-    }, []),
-    // (videos) => setSelectedVideoId(videos[0].id)
-  );
+      return;
+    }
+
+    fetchResource(
+      'videos',
+      {
+        q: query,
+        fields: ['id/videoId', 'snippet/title', 'snippet/thumbnails']
+      },
+      setFetchingVideos,
+      setVideos,
+      (response) => response.items.reduce((videos, { id: { videoId }, snippet: { thumbnails } }) => {
+        videos.push({
+          id: videoId,
+          thumbnails,
+        });
+
+        return videos;
+      }, []),
+      (videos) => setSelectedVideoId(videos[0].id)
+    );
+  }
 
   useEffect(() => {
     if (!selectedVideoId) return;
@@ -53,13 +63,15 @@ const App = () => {
       {(fetchingVideos || fetchingSelectedVideo) && (
         <LinearProgress />
       )}
+      
+      {videos && videos.length > 0 && (
+        <>
+          <VideoSelector videos={videos} selectedVideoId={selectedVideoId} setSelectedVideoId={setSelectedVideoId} />
 
-      {videos && (
-        <VideoSelector videos={videos} selectedVideoId={selectedVideoId} setSelectedVideoId={setSelectedVideoId} />
-      )}
-
-      {selectedVideo && (
-        <Video id={selectedVideoId} {...selectedVideo} />
+          {selectedVideo && (
+            <Video id={selectedVideoId} {...selectedVideo} />
+          )}
+        </>
       )}
     </>
   );
