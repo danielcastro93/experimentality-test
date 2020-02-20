@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -37,10 +37,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBar = () => {
+const SearchBar = ({ onChange }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+  const inputRef = useRef();
+  const timerRef = useRef();
   const classes = useStyles();
+
+  useEffect(() => {
+    if (open || !value) inputRef.current.focus();
+  }, [open, value]);
+
+  const handleChange = (value) => {
+    setValue(value);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => onChange(value), 3000);
+  };
 
   return (
     <>
@@ -53,10 +65,16 @@ const SearchBar = () => {
           <ArrowBack />
         </IconButton>
 
-        <InputBase className={classes.input} placeholder="Search" value={value} onChange={({ target: { value } }) => setValue(value)} />
+        <InputBase
+          className={classes.input}
+          placeholder="Search"
+          value={value}
+          onChange={({ target: { value } }) => handleChange(value)}
+          inputRef={inputRef}
+        />
 
         {value && (
-          <IconButton className={classes.button} color="primary" aria-label="Remove search value" onClick={() => setValue('')}>
+          <IconButton className={classes.button} color="primary" aria-label="Remove search value" onClick={() => handleChange('')}>
             <Close />
           </IconButton>
         )}

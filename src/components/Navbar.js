@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const App = () => {
+const App = ({ handleSearchValueChange }) => {
   const classes = useStyles();
 
   return (
@@ -31,7 +31,7 @@ const App = () => {
           Experimentality
         </Typography>
 
-        <SearchBar />
+        <SearchBar onChange={handleSearchValueChange} />
       </Toolbar>
     </AppBar>
   );
